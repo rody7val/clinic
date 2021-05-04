@@ -120,7 +120,7 @@ export default {
   methods: {
     handleSetTitle() {
       this.$q.dialog({
-        title: 'Admin',
+        title: 'Variables globales',
         message: 'Cambiar título',
         prompt: { model: this.$store.state.admin.web.title },
         cancel: true,
@@ -135,9 +135,9 @@ export default {
     },
     handleSetDesc() {
       this.$q.dialog({
-        title: 'Admin',
+        title: 'Variables globales',
         message: 'Cambiar descripción',
-        prompt: { model: this.$store.state.admin.web.title },
+        prompt: { model: this.$store.state.admin.web.desc },
         cancel: true,
         persistent: true
       }).onOk(data => {

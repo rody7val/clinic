@@ -6,6 +6,7 @@
   "author": "rody7val <rod7val@gmail.com>",
   "private": true,
   "scripts": {
+    "dev": "cross-env QENV=DEV quasar dev",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
@@ -17,10 +18,13 @@
     "@fullcalendar/vue": "^5.6.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "firebase": "^8.4.3",
     "quasar": "^1.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

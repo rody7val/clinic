@@ -65,7 +65,7 @@
       <q-list>
         <q-item-section>
           <img
-            class="shadow-logo img-menu q-mx-auto q-my-sm"
+            class="shadow-logo img-menu q-mx-auto q-my-md"
             src="~assets/quasar-logo-full.svg"
           />
           <q-toolbar-title class="text-center">
