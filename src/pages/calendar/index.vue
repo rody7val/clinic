@@ -1,7 +1,5 @@
 <script>
-// import the third-party stylesheets directly from your JS
-//import 'bootstrap/dist/css/bootstrap.css';
-//import '@fortawesome/fontawesome-free/css/all.css'; // needs additional webpack config!
+import { mapState, mapActions, mapGetters } from 'vuex'
 import FullCalendar from '@fullcalendar/vue'
 import listPlugin from '@fullcalendar/list'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -9,9 +7,19 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es'
 import { INITIAL_EVENTS, createEventId } from '../../utils/event-utils'
+import EventPopUp from '../../components/EventPopUp.vue'
 export default {
   components: {
     FullCalendar // make the <FullCalendar> tag available
+  },
+  mounted() {
+    //const orderBy = ['name']
+    const limit = 50
+    this.$store.dispatch('calendars/openDBChannel', { clauses: {limit} })
+  },
+  beforeDestroy () {
+    // close sync
+    this.$store.dispatch('calendars/closeDBChannel', { clearModule: true })
   },
   data() {
     return {
@@ -28,6 +36,7 @@ export default {
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
         },
+        slotDuration: '00:15:00',
         slotLabelFormat:{
           hour: '2-digit',
           minute: '2-digit',
@@ -46,18 +55,34 @@ export default {
         weekends: true,
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents
+        //eventsSet: this.handleEvents,
+        //events: this.events,
         /* you can update a remote database when these fire:
-        eventAdd:
         eventChange:
         eventRemove:
         */
+        eventAdd: this.setEventFirestore,
       },
+      label: '',
       currentEvents: [],
       sucursal: '' //La Plata
     }
   },
+  computed: {
+    //...mapState({
+        //events: state => state.calendar.events
+    //}),
+    //...mapGetters('calendar', ['events']),
+  },
   methods: {
+    setEventFirestore(info) {
+      console.log(info.view.calendar)
+      //this.$store.dispatch('calendar/set', {
+      //  name: this.clientName,
+      //  tel: this.clientTel,
+      //  done: false
+      //})
+    },
     handleDateSelect(selectInfo) {
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
@@ -86,6 +111,46 @@ export default {
       //let title = prompt('Nueva entrada')
     },
     handleEventClick(clickInfo) {
+      //manda clickInfo al state
+      this.$q.dialog({
+        component: EventPopUp,
+      
+        // optional if you want to have access to
+        // Router, Vuex store, and so on, in your
+        // custom component:
+        parent: this, // becomes child of this Vue node
+                      // ("this" points to your Vue component)
+                      // (prop was called "root" in < 1.1.0 and
+                      // still works, but recommending to switch
+                      // to the more appropriate "parent" name)
+      
+        // props forwarded to component
+        // (everything except "component" and "parent" props above):
+        //text: 'something',
+        // ...more.props...
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        console.log('Called on OK or Cancel')
+      })      
+      //if (clickInfo.event.allDay) {
+      //  return this.$q.dialog({
+      //    title: clickInfo.event.title,
+      //    message: clickInfo.event.startStr,
+      //    cancel: true,
+      //    persistent: true
+      //  }).onOk(() => {})
+      //}
+      //this.$q.dialog({
+      //  title: clickInfo.event.title,
+      //  message: clickInfo.event.startStr+" "+clickInfo.event.endStr,
+      //  cancel: true,
+      //  persistent: true
+      //}).onOk(() => {})
+    },
+    handleEventDelete(clickInfo) {
       this.$q.dialog({
         title: 'Confirmar',
         message: `¿Cancelar el evento '${clickInfo.event.title}'?`,
@@ -95,16 +160,22 @@ export default {
       //.onCancel(() => { })
       //.onDismiss(() => { })
     },
-    handleEvents(events) {
-      this.currentEvents = events
-    },
   }
 }
+    //<q-popup-edit v-model="label" content-class="bg-accent text-white">
+      //<q-input dark color="white" v-model="label" dense autofocus counter>
+        //<template v-slot:append>
+          //<q-icon name="edit" />
+        //</template>
+      //</q-input>
+    //</q-popup-edit>
+  //{{$store.state.calendar.events}}
 </script>
 
 <template>
+<div>
   <div class="row q-pa-sm">
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-xs-12 col-sm-4 col-md-4">
       <q-select
         outlined
         v-model="sucursal"
@@ -131,6 +202,7 @@ export default {
       </FullCalendar>
     </div>
   </div>
+</div>
 </template>
 
 <style lang='css'>

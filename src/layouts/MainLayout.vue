@@ -10,9 +10,8 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
         <q-toolbar-title>
-          {{$store.state.admin.title}}
+          {{getTitle}}        
         </q-toolbar-title>
 
         <!--auth signin
@@ -69,10 +68,28 @@
             src="~assets/quasar-logo-full.svg"
           />
           <q-toolbar-title class="text-center">
-            {{$store.state.admin.title}}
+            {{getTitle}}
+            <q-btn
+              v-if="!$store.state.auth.isAuthenticated"
+              @click.prevent="handleSetTitle"
+              flat
+              round
+              color="primary"
+              icon="edit"
+              size="xs"
+            />
           </q-toolbar-title>
           <q-item-label class="text-center text-weight-light q-mb-md">
-            {{$store.state.admin.subtitle}}
+            {{getSubtitle}}
+            <q-btn
+              v-if="!$store.state.auth.isAuthenticated"
+              @click.prevent="handleSetSubtitle"
+              flat
+              round
+              color="primary"
+              icon="edit"
+              size="xs"
+            />
           </q-item-label>
         </q-item-section>
         <hr>
@@ -91,39 +108,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Home',
-    caption: 'Página web',
-    icon: 'home',
-    link: '/',
-    exact: true,
-    public: true
-  },
-  {
-    title: 'Calendario',
-    caption: 'Agenda de turnos',
-    icon: 'event',
-    link: '/calendar',
-    public: false
-  },
-  {
-    title: 'Clinica',
-    caption: 'Historia clinica',
-    icon: 'local_hospital',
-    link: '/clinic',
-    public: false
-  },
-  {
-    title: 'Tienda',
-    caption: 'Control de stock',
-    icon: 'storefront',
-    link: '/stock',
-    public: false
-  },
-];
+import { linksData } from '../utils/mainLayoutConfig.js'
 
 export default {
   name: 'MainLayout',
@@ -133,7 +120,58 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
-  }
+  },
+  beforeDestroy () {
+    // close sync
+    this.$store.dispatch('admin/closeDBChannel', { clearModule: true })
+  },
+  mounted() {
+    // open sync
+    this.$store.dispatch('admin/openDBChannel')
+  },
+  computed: mapState({
+    getAdminId(state) {
+      return Object.keys(state.admin.data)[0]
+    },
+    getTitle(state) {
+      if (this.getAdminId) {
+        return state.admin.data[this.getAdminId].title
+      }
+    },
+    getSubtitle(state) {
+      if (this.getAdminId) {
+        return state.admin.data[this.getAdminId].subtitle
+      }
+    }
+  }),
+  methods: {
+    handleSetTitle() {
+      this.$q.dialog({
+        title: 'Cambiar título',
+        prompt: { model: this.getTitle },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        if (data) {
+          let id = this.getAdminId
+          this.$store.dispatch('admin/set', {id, title: data})
+        }
+      })
+    },
+    handleSetSubtitle() {
+      this.$q.dialog({
+        title: 'Cambiar subtítulo',
+        prompt: { model: this.getSubtitle },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        if (data) {
+          let id = this.getAdminId
+          this.$store.dispatch('admin/set', {id, subtitle: data})
+        }
+      })
+    },
+  },
 }
 </script>
 

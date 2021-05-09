@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <!--auth signin-->
-    <q-btn v-if="!$store.state.auth.isAuthenticated"
+    <q-btn v-if="!$store.state.auth.data.isAuthenticated"
       @click.prevent="signIn"
       color="white"
       text-color="primary"

@@ -14,7 +14,7 @@ module.exports = (QENV) => {
     FIREBASE_CONFIG: {
       apiKey: ENV[`${QENV}_API_KEY`],
       authDomain: ENV[`${QENV}_AUTH_DOMAIN`],
-      //databaseURL: ENV[`${QENV}_DATA_BASE_URL`],
+      databaseURL: ENV[`${QENV}_DATA_BASE_URL`],
       projectId: ENV[`${QENV}_PROJECT_ID`],
       storageBucket: ENV[`${QENV}_STORAGE_BUCKET`],
       messagingSenderId: ENV[`${QENV}_MESSAGING_SENDER_ID`],

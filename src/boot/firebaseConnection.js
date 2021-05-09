@@ -2,7 +2,7 @@ import Vue from 'vue'
 import firebase from '../services/firebase'
 
 export default async ({router, store}) => {
-  firebase.init(process.env.QENV.FIREBASE_CONFIG)
+  //firebase.init(process.env.QENV.FIREBASE_CONFIG)
   // Tell the application what to do when the 
   // authentication state has changed
   firebase.auth().onAuthStateChanged((user) => {

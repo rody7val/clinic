@@ -3,10 +3,10 @@
   <div class="row">
     <div class="col-md-8 col-sm-8 col-xs-12 order-last-xs q-px-lg text-center-sm">
       <h1 class="text-h4">
-        {{$store.state.admin.web.title}}
+        {{getHead}}
         <q-btn
           v-if="!$store.state.auth.isAuthenticated"
-          @click.prevent="handleSetTitle"
+          @click.prevent="handleSetHeader"
           flat
           round
           color="primary"
@@ -15,7 +15,7 @@
         />
       </h1>
       <h1 class="text-h5">
-        {{$store.state.admin.web.desc}}
+        {{getDesc}}
         <q-btn
           v-if="!$store.state.auth.isAuthenticated"
           @click.prevent="handleSetDesc"
@@ -68,87 +68,18 @@
       />
     </div>
   </div>
-  <br>
-    <div class="text-h6 q-ma-lg">Galería del sistema</div>
-    <q-carousel
-      v-model="slide"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      swipeable
-      animated
-      control-color="primary"
-      navigation
-      padding
-      arrows
-      height="300px"
-      class="bg-grey-1 rounded-borders"
-    >
-      <q-carousel-slide :name="1" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="2" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="3" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="4" class="column no-wrap">
-        <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/material.png" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/donuts.png" />
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
+
+  <Carousel/>
 </div>
 </template>
 
 <script>
-//import vue from 'vue'
-//import firebase from 'firebase'
+import { mapState } from 'vuex'
+import Carousel from '../../components/Carousel.vue'
 const signIn = () => {}
 
 export default {
-  methods: {
-    handleSetTitle() {
-      this.$q.dialog({
-        title: 'Variables globales',
-        message: 'Cambiar título',
-        prompt: { model: this.$store.state.admin.web.title },
-        cancel: true,
-        persistent: true
-      }).onOk(data => {
-        if (data) {
-          this.$store.commit("admin/setTitle", data)
-        }
-      })
-      //.onCancel(() => { })
-      //.onDismiss(() => { })
-    },
-    handleSetDesc() {
-      this.$q.dialog({
-        title: 'Variables globales',
-        message: 'Cambiar descripción',
-        prompt: { model: this.$store.state.admin.web.desc },
-        cancel: true,
-        persistent: true
-      }).onOk(data => {
-        if (data) {
-          this.$store.commit("admin/setDesc", data)
-        }
-      })
-      //.onCancel(() => { })
-      //.onDismiss(() => { })
-    }
-  },
+  components: { Carousel },
   data () {
     //  const provider = new firebase.auth.GoogleAuthProvider()
     //  firebase.auth().signInWithPopup(provider).then(result => {
@@ -157,12 +88,53 @@ export default {
     //  }).catch(error => {
     //    alert(error)
     //  })
-
     return {
-      signIn,
-      slide: 1
+      signIn
     }
-  }
+  },
+  computed: mapState({
+    getAdminId(state) {
+      return Object.keys(state.admin.data)[0]
+    },
+    getHead(state) {
+      if (this.getAdminId) {
+        return state.admin.data[this.getAdminId].web.head
+      }
+    },
+    getDesc(state) {
+      if (this.getAdminId) {
+        return state.admin.data[this.getAdminId].web.desc
+      }
+    }
+  }),
+  methods: {
+    handleSetHeader() {
+      this.$q.dialog({
+        title: 'Cambiar encabezado',
+        prompt: { model: this.getHead },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        if (data) {
+          let id = this.getAdminId
+          this.$store.dispatch('admin/set', {id, web: {head: data}})
+        }
+      })
+    },
+    handleSetDesc() {
+      this.$q.dialog({
+        title: 'Cambiar descripción',
+        prompt: { model: this.getDesc },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        if (data) {
+          let id = this.getAdminId
+          this.$store.dispatch('admin/set', {id, web: {desc: data}})
+        }
+      })
+    }
+  },
 }
 </script>
 
