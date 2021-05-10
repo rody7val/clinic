@@ -14,15 +14,15 @@
           {{getTitle}}        
         </q-toolbar-title>
 
-        <!--auth signin
+        <!--auth signin-->
         <q-btn v-if="!$store.state.auth.isAuthenticated"
           @click.prevent="signIn"
           color="white"
           text-color="primary"
           icon="person"
           label="ACCEDER" />
-        -->
-        <!--auth menu
+        
+        <!--auth menu-->
         <q-btn-dropdown
           v-else
           dense
@@ -52,25 +52,25 @@
               />
             </div>
           </div>
-        </q-btn-dropdown>-->
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
-      content-class="bg-grey-1"
+      content-class="bg-grey-3 text-grey-9"
     >
       <q-list>
         <q-item-section>
           <img
-            class="shadow-logo img-menu q-mx-auto q-my-md"
+            class="shadow logo img-menu q-mx-auto q-my-md"
             src="~assets/quasar-logo-full.svg"
           />
           <q-toolbar-title class="text-center">
             {{getTitle}}
             <q-btn
-              v-if="!$store.state.auth.isAuthenticated"
+              v-if="$store.state.auth.isAuthenticated"
               @click.prevent="handleSetTitle"
               flat
               round
@@ -82,7 +82,7 @@
           <q-item-label class="text-center text-weight-light q-mb-md">
             {{getSubtitle}}
             <q-btn
-              v-if="!$store.state.auth.isAuthenticated"
+              v-if="$store.state.auth.isAuthenticated"
               @click.prevent="handleSetSubtitle"
               flat
               round
@@ -111,12 +111,24 @@
 import { mapState } from 'vuex'
 import EssentialLink from 'components/EssentialLink.vue'
 import { linksData } from '../utils/mainLayoutConfig.js'
+import firebase from 'firebase'
+
+const signIn = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  firebase.auth().signInWithPopup(provider).catch(e=>{alert(e.message)})
+}
+
+const signOut = () => {
+  firebase.auth().signOut().catch(e=>{alert(e.message)})
+}
 
 export default {
   name: 'MainLayout',
   components: { EssentialLink },
   data () {
     return {
+      signIn,
+      signOut,
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
@@ -179,8 +191,10 @@ export default {
 .img-menu{
   height: 120px
 }
-.shadow-logo{
+.logo{
   border-radius: 50%;
+}
+.shadow{
   box-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
 }
 </style>

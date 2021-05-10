@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="public || (!public && $store.state.auth.isAuthenticated)">
     <q-item
       clickable
       tag="a"

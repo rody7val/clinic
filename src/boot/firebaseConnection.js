@@ -8,12 +8,16 @@ export default async ({router, store}) => {
   firebase.auth().onAuthStateChanged((user) => {
     //store.commit('auth/setAuthState', { user })
     //store.state.user = user || null
-    firebase.handleOnAuthStateChanged(router, store, user)
+    store.commit('auth/setAuthState', {
+      isAuthenticated: user !== null,
+      user: user
+    })
+    //Vue.prototype.$user = user
+    //firebase.handleOnAuthStateChanged(router, store, user)
   }, (error) => {
     console.error(error)
   })
 
-  Vue.prototype.$firebase = firebase
   //$q.$fb = fb
   //store.$fb = fb
 }

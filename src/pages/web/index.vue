@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="bg-grey-1 text-grey-9">
   <div class="row">
     <div class="col-md-8 col-sm-8 col-xs-12 order-last-xs q-px-lg text-center-sm">
-      <h1 class="text-h4">
+      <h1 class="text-h4 q-pt-lg q-mt-lg">
         {{getHead}}
         <q-btn
-          v-if="!$store.state.auth.isAuthenticated"
+          v-if="$store.state.auth.isAuthenticated"
           @click.prevent="handleSetHeader"
           flat
           round
@@ -14,10 +14,10 @@
           size="sm"
         />
       </h1>
-      <h1 class="text-h5">
+      <div class="text-subtitle1">
         {{getDesc}}
         <q-btn
-          v-if="!$store.state.auth.isAuthenticated"
+          v-if="$store.state.auth.isAuthenticated"
           @click.prevent="handleSetDesc"
           flat
           round
@@ -25,50 +25,74 @@
           icon="edit"
           size="sm"
         />
-      </h1>
+      </div>
       <hr>
-        <!--auth signin
-        <q-btn v-if="!$store.state.auth.isAuthenticated"
-          @click.prevent="signIn"
-          color="white"
-          text-color="primary"
-          icon="person"
-          label="ACCEDER" />
-        <div v-else>
-          <p>Hola {{$store.state.auth.user.displayName}}!</p>
-          <q-btn
-            to="/calendar"
-            class="q-mr-sm q-mb-sm"
-            icon="event"
-            label="Calendario"
-            color="primary"
-          />
-          <q-btn
-            to="/clinic"
-            class="q-mr-sm q-mb-sm"
-            icon="local_hospital"
-            label="Clínica"
-            color="primary"
-          />
-          <q-btn
-            to="/stock"
-            class="q-mr-sm q-mb-sm"
-            icon="storefront"
-            label="Tienda"
-            color="primary"
-          />
-        </div>-->
+      <div class="text-overline q-mb-md">Administración</div>
+      <!--auth signin-->
+      <q-btn v-if="!$store.state.auth.isAuthenticated"
+        class="q-mb-md"
+        @click.prevent="signIn"
+        text-color="primary"
+        color="white"
+        icon="person"
+        size="md"
+        label="ACCEDER" />
     </div>
-    <div class="col-md-4 col-sm-4 col-xs-12 order-sm-2">
+    <div class="col-md-4 col-sm-4 col-xs-12 order-sm-2 q-pt-md">
       <img
         fit="fill"
         style="display: block"
-        class="shadow-logo img-web q-mx-auto q-my-lg"
+        class="shadow logo img-web q-mx-auto q-my-lg"
         src="~assets/quasar-logo-full.svg"
       />
     </div>
   </div>
 
+  <div class="row" v-if="$store.state.auth.isAuthenticated">
+    <div class="col-12 q-px-lg q-my-md">
+      <div>
+        <q-banner class="bg-grey-4">
+
+          <div class="text-h6 text-primary q-pb-lg">Hola {{$store.state.auth.user.displayName}}!</div>
+
+          <template v-slot:avatar>
+            <q-icon size="md" name="person" color="primary" />
+          </template>
+
+          <template v-slot:action>
+            <q-btn
+              to="/calendar"
+              class="q-mr-sm q-mb-sm"
+              icon="event"
+              label="Calendario"
+              flat
+              stack
+              color="primary"
+            />
+            <q-btn
+              to="/clinic"
+              class="q-mr-sm q-mb-sm"
+              icon="local_hospital"
+              label="Clínica"
+              flat
+              stack
+              color="primary"
+            />
+            <q-btn
+              to="/stock"
+              class="q-mr-sm q-mb-sm"
+              icon="storefront"
+              label="Tienda"
+              flat
+              stack
+              color="primary"
+            />
+          </template>
+        </q-banner>
+      </div>
+
+    </div>
+  </div>
   <Carousel/>
 </div>
 </template>
@@ -76,18 +100,16 @@
 <script>
 import { mapState } from 'vuex'
 import Carousel from '../../components/Carousel.vue'
-const signIn = () => {}
+import firebase from 'firebase'
+
+const signIn = () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  firebase.auth().signInWithPopup(provider).catch(e=>{alert(e.message)})
+}
 
 export default {
   components: { Carousel },
   data () {
-    //  const provider = new firebase.auth.GoogleAuthProvider()
-    //  firebase.auth().signInWithPopup(provider).then(result => {
-    //    console.log('signIn!', result)
-    //    //useRouter.push({ path: '/dash' })
-    //  }).catch(error => {
-    //    alert(error)
-    //  })
     return {
       signIn
     }

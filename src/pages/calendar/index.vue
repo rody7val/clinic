@@ -173,10 +173,11 @@ export default {
 </script>
 
 <template>
-<div>
+<div class="bg-grey-1 text-grey-9">
   <div class="row q-pa-sm">
     <div class="col-xs-12 col-sm-4 col-md-4">
       <q-select
+        class="bg-white"
         outlined
         v-model="sucursal"
         :options="['Suarez', 'La Plata']"
@@ -244,7 +245,6 @@ b { /* used for event dates/times */
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .fc .fc-button-primary {
     color: #fff;
     background-color: #1976d2;;
@@ -258,5 +258,8 @@ b { /* used for event dates/times */
     border-color: #12589e!important;
 }
 .fc .fc-toolbar-chunk{
+}
+.fc .fc-scrollgrid-liquid {
+    background-color: white;
 }
 </style>
