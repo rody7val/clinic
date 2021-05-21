@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-grey-4 text-primary q-pb-lg" v-if="$store.state.auth.isAuthenticated">
+	<div class="bg-grey-3 text-primary q-pb-lg" v-if="$store.state.auth.isAuthenticated">
     <div class="text-h6 q-ma-lg q-px-md q-pt-md">
       <q-icon size="md" name="perm_media" color="primary" class="q-mr-md" />
       Galería del sistema
@@ -15,7 +15,7 @@
       padding
       arrows
       height="300px"
-      class="bg-grey-4 rounded-borders"
+      class="bg-grey-3 rounded-borders"
     >
       <q-carousel-slide :name="1" class="column no-wrap">
         <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">

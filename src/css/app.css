@@ -1,12 +1,4 @@
 /* app global css */
 body{
-	background-color: #e0e0e0;
-}
-@media (max-width: 600px){
-	/*.q-banner__actions.col-all .q-btn-item{
-		display: contents
-	}*/
-	.q-banner__content .text-h6{
-		font-size: 16px!important
-	}
+  background-color: #fafafa;
 }

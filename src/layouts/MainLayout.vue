@@ -36,11 +36,12 @@
 
           <div class="row no-wrap q-pa-md">
             <div class="column items-center">
-              <q-avatar size="72px">
+              <q-avatar size="72px" class="shadow logo">
                 <img :src="$store.state.auth.user.photoURL">
               </q-avatar>
 
-              <div class="text-subtitle1 q-mt-md q-mb-xs">{{$store.state.auth.user.displayName}}</div>
+              <div class="text-subtitle1 q-mt-md">{{$store.state.auth.user.displayName}}</div>
+              <div class="text-weight-bold q-mb-md">{{$store.state.auth.user.email}}</div>
 
               <q-btn
                 @click.prevent="signOut"
@@ -61,7 +62,6 @@
       bordered
       content-class="bg-grey-3 text-grey-9"
     >
-      <q-list>
         <q-item-section>
           <img
             class="shadow logo img-menu q-mx-auto q-my-md"
@@ -92,6 +92,7 @@
             />
           </q-item-label>
         </q-item-section>
+      <q-list>
         <hr>
         <EssentialLink
           v-for="link in essentialLinks"

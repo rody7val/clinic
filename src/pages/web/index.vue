@@ -51,7 +51,7 @@
   <div class="row" v-if="$store.state.auth.isAuthenticated">
     <div class="col-12 q-px-lg q-my-md">
       <div>
-        <q-banner class="bg-grey-4">
+        <q-banner class="bg-grey-3">
 
           <div class="text-h6 text-primary q-pb-lg">Hola {{$store.state.auth.user.displayName}}!</div>
 
@@ -94,6 +94,7 @@
     </div>
   </div>
   <Carousel/>
+
 </div>
 </template>
 

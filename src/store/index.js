@@ -6,13 +6,13 @@ import fb from '../services/firebase'
 import firebase from 'firebase'
 import admin from './admin'
 import auth from './auth'
-import calendar from './calendar'
+import events from './events'
 
 Vue.use(Vuex)
 
 // do the magic 🧙🏻‍♂️
 const easyFirestore = VuexEasyFirestore(
-  [admin, calendar],
+  [admin, events],
   {logging: true, FirebaseDependency: firebase}
 )
 /*
@@ -28,12 +28,16 @@ fb.init(process.env.QENV.FIREBASE_CONFIG)
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
-    plugins: [easyFirestore],
-    modules: {
-      auth
-    },
-    // enable strict mode (adds overhead!)
-    // for dev mode only
+    plugins: [ easyFirestore ],
+
+    modules: { auth },
+
+    getters: {
+      events: state => {
+        return Object.values(state.events.data)
+      }
+    }
+
     //strict: process.env.DEBUGGING
   })
 

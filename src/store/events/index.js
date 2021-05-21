@@ -2,23 +2,18 @@
 //import mutations from './mutations'
 //import actions from './actions'
 
-//const getters = {
-  //events: state => state.events,
-  //weekendsVisible: state => state.weekendsVisible
-//}
-
 export default {
-  firestorePath: 'calendars',
+  firestorePath: 'events',
   firestoreRefType: 'collection', // or 'doc'
-  moduleName: 'calendars',
+  moduleName: 'events',
   statePropName: 'data',
   namespaced: true,
   sync: {
     preventInitialDocInsertion: true,
   },
   //_
-//  state,
-//  getters,
-//  mutations,
-//  actions,
+  //state,
+  //getters,
+  //mutations,
+  //actions,
 }
