@@ -5,27 +5,31 @@ export const linksData = [
     icon: 'home',
     link: '/',
     exact: true,
-    public: true
+    public: true,
+    color: 'grey-9',
   },
   {
     title: 'Calendario',
     caption: 'Agenda de turnos',
     icon: 'event',
     link: '/calendar',
-    public: false
+    public: false,
+    color: 'primary',
   },
   {
     title: 'Clinica',
     caption: 'Historia clinica',
     icon: 'local_hospital',
     link: '/clinic',
-    public: false
+    public: false,
+    color: 'secondary',
   },
   {
     title: 'Tienda',
     caption: 'Control de stock',
     icon: 'storefront',
     link: '/stock',
-    public: false
+    public: false,
+    color: 'red-5',
   },
 ]

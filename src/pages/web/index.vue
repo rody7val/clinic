@@ -9,7 +9,7 @@
           @click.prevent="handleSetHeader"
           flat
           round
-          color="primary"
+          color="grey-7"
           icon="edit"
           size="sm"
         />
@@ -21,7 +21,7 @@
           @click.prevent="handleSetDesc"
           flat
           round
-          color="primary"
+          color="grey-7"
           icon="edit"
           size="sm"
         />
@@ -53,10 +53,10 @@
       <div>
         <q-banner class="bg-grey-3">
 
-          <div class="text-h6 text-primary q-pb-lg">Hola {{$store.state.auth.user.displayName}}!</div>
+          <div class="text-h6 text-grey-9 q-pb-lg">Hola {{$store.state.auth.user.displayName}}!</div>
 
           <template v-slot:avatar>
-            <q-icon size="md" name="person" color="primary" />
+            <q-icon size="md" name="person" color="grey-9" />
           </template>
 
           <template v-slot:action>
@@ -76,7 +76,7 @@
               label="Clínica"
               flat
               stack
-              color="primary"
+              color="secondary"
             />
             <q-btn
               to="/stock"
@@ -85,7 +85,7 @@
               label="Tienda"
               flat
               stack
-              color="primary"
+              color="red-5"
             />
           </template>
         </q-banner>

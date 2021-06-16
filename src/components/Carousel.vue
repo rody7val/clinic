@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-grey-3 text-primary q-pb-lg" v-if="$store.state.auth.isAuthenticated">
-    <div class="text-h6 q-ma-lg q-px-md q-pt-md">
-      <q-icon size="md" name="perm_media" color="primary" class="q-mr-md" />
+    <div class="text-grey-9 text-h6 q-ma-lg q-px-md q-pt-md">
+      <q-icon size="md" name="perm_media" color="grey-9" class="q-mr-md" />
       Galería del sistema
     </div>
     <q-carousel
@@ -10,7 +10,7 @@
       transition-next="slide-left"
       swipeable
       animated
-      control-color="primary"
+      control-color="grey-9"
       navigation
       padding
       arrows

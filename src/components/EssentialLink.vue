@@ -5,6 +5,7 @@
       tag="a"
       :to="link"
       :exact="exact"
+      :class="`text-${color}`"
     >
       <q-item-section
         v-if="icon"
@@ -56,6 +57,11 @@ export default {
     public: {
       type: Boolean,
       default: false
+    },
+
+    color: {
+      type: String,
+      default: 'primary'
     }
   }
 }

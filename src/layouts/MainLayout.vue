@@ -74,7 +74,7 @@
               @click.prevent="handleSetTitle"
               flat
               round
-              color="primary"
+              color="grey-7"
               icon="edit"
               size="xs"
             />
@@ -86,7 +86,7 @@
               @click.prevent="handleSetSubtitle"
               flat
               round
-              color="primary"
+              color="grey-7"
               icon="edit"
               size="xs"
             />

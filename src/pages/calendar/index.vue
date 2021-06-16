@@ -9,7 +9,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es'
 import { INITIAL_EVENTS, createEventId } from '../../utils/event-utils'
-import EventPopUp from '../../components/EventPopUp.vue'
 
 export default {
   components: {
