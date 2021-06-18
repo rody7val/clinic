@@ -34,10 +34,14 @@ export default function (/* { ssrContext } */) {
     modules: { auth },
 
     state: {
-      paginationBlock: 5
+      paginationBlock: 5,
+      navColor: null
     },
 
     mutations: {
+      setColor(state, color) {
+        state.navColor = color
+      },
       handleDoneItems(state, id) {
         state.items.data[id].done = !state.items.data[id].done
       },

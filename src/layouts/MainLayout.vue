@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header
+      :class="'bg-'+$store.state.navColor"
+      elevated
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -26,7 +29,7 @@
         <q-btn-dropdown
           v-else
           dense
-          color="primary"
+          :color="$store.state.navColor"
         >
           <template v-slot:label>
             <q-avatar size="sm">
